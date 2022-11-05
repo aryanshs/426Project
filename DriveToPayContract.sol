@@ -2,44 +2,60 @@
 pragma solidity ^0.8.7;
  
 contract DriveToPayContract {
- 
-    struct Users {
- 
+    
+    //this struct will help us specify if the user is a business(eg: McDonals) or customer, or in some cases both.
+    struct User {
+        bool business; //if the user is a business
+        bool customer; // if the user is a customer
     }
-    struct
-    address[] Business;
-    address[] Users;
-    mapping(address =>)
- 
+
+    //this will map the address of the user's account to their info
+    mapping(address => User) public users;
+
+    User NewBusiness; //struct for new businesses
+    User NewUser;     //struct for new users
+    User NewUserandBusiness; // struct for new users and businesses
+
+
     //registering users
-    function RegisterUser() public {
-        Users.push(msg.sender);
+    function RegisterUser(bool business, bool customer) public returns(string memory Confirmation) {
+        
+        //registering just as a business
+        if (business == true && customer == false){
+
+            NewBusiness = User(true, false);
+            users[msg.sender] = NewBusiness;
+            return("Congratulations, you are now registered as a Business entity!");
+
+        //registering just as a customer
+        }else if(business == false && customer == true){
+
+            NewUser = User(false, true);
+            users[msg.sender] = NewUser;
+            return("Congratulations, you are now registered as a User!");
+        }
+
+        //registering as neither
+        else if(business == false && customer == false){
+            return("Oops, please try again");
+        }
+        //registering as both
+        else{
+            
+            NewUserandBusiness = User(true, true);
+            users[msg.sender] = NewUserandBusiness;
+            return("Congratulations, you are now registered as a User and a Business entity!");
+        }
  
     }
- 
-    //regisering business
-    function RegisterBusiness() public{
-        Business.push(msg.sender);
-    }
- 
-    //unregistering users
+
+    //Unregistering as a user and a business
     function UnRegister() public OnlyUsers {
-       
-        //remove from business array
-        for (uint256 i = 0; i < Business.length;i++){
-            if (Business[i] == msg.sender){
-                delete Business[i];
-            }
-        }
- 
-        for (uint256 i = 0; i < Users.length;i++){
-            if (Users[i] == msg.sender){
-                delete Users[i];
-            }
-        }
- 
+        users[msg.sender].business = false;
+        users[msg.sender].customer = false;
+        delete users[msg.sender];
     }
- 
+
     //user paying money for services
     function payment() public payable {
  
@@ -51,42 +67,18 @@ contract DriveToPayContract {
     }
  
    
-    function withdraw() public OnlyEntity{
+    function withdraw() public OnlyEntity{ 
  
     }
- 
-    //MODIFIERS
-   
-    modifier OnlyEntity {
-        bool exists = false;
- 
-        for (uint256 i = 0; i < Business.length;i++){
-            if (Business[i] == msg.sender){
-                exists = true;
-            }
-        }
-        require(exists == true);
-        _;
-    }
- 
+
+    //Modifiers
     modifier OnlyUsers {
-        bool exists = false;
- 
-        //checking if they are a user
-        for (uint256 i = 0; i < Users.length;i++){
-            if (Users[i] == msg.sender){
-                exists = true;
-            }
-        }
- 
-        //checking if they are a business
-        for (uint256 i = 0; i < Business.length;i++){
-            if (Business[i] == msg.sender){
-                exists = true;
-            }
-        }
-        require(exists == true);
+        require(users[msg.sender].business == true || users[msg.sender].customer == true, "Only users can call this function");
         _;
- 
+    }
+
+    modifier OnlyEntity {
+        require(users[msg.sender].business == true, "You are not authorized to call this function");
+        _;
     }
 }

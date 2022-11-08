@@ -65,21 +65,21 @@ contract DriveToPayContract {
     }
 
     //user paying money for services
-    function payment(address NameOfBusiness, string memory NameOfService) external payable OnlyCustomers{
+    function payment(address BusinessAddress, string memory NameOfService) external payable OnlyCustomers{
         
         //checks if the amount send is the right amount for the service requested
-        require(msg.value == businessesMap[NameOfBusiness].Services[NameOfService], "Please send the right amount");
+        require(msg.value == businessesMap[BusinessAddress].Services[NameOfService], "Please send the right amount");
 
         //adds the payment to the business's balance, which the business can withdraw whenever they want- until then the amount will be stored in the contract
-        businessesMap[NameOfBusiness].Balance += msg.value;
+        businessesMap[BusinessAddress].Balance += msg.value;
 
     }
  
     //finding the price of the service requested
-    function findPrice(address NameOfBusiness, string memory NameOfService) public view returns (uint256){
+    function findPrice(address BusinessAddress, string memory NameOfService) public view returns (uint256){
 
         //returns the price of the service
-        return businessesMap[NameOfBusiness].Services[NameOfService];
+        return businessesMap[BusinessAddress].Services[NameOfService];
 
     }   
  

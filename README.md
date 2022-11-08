@@ -1,6 +1,6 @@
 # 426Project
 
-## To run the program above:
+## To run the project above:
 
   - git clone {url}
   - cd into the directory that you just cloned

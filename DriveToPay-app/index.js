@@ -1,7 +1,7 @@
 var express = require("express");
 var app = express();
 app.use(express.static("src"));
-app.use(express.static("../contracts/DriveToPay-contract"));
+app.use(express.static("../contracts"));
 app.get("/", function (req, res) {
   res.render("index.html");
 });

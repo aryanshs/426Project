@@ -4,7 +4,7 @@
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>DriveToPay - Dapp </title>
+      <title>Register as a Business entity!</title>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -12,21 +12,27 @@
       <link href="css/toastr.min.css" rel="stylesheet">
   </head>  
   <body>
-    <!--Register Page-->
-    <section id="RegisterPage">
-      <div class = "container">
-        <div class='row col-lg-12 text-center'>             
-          <div class="col-lg-6 windowbox">
-              <div class="form-group">
-                  <!-- <input type="number" class="form-control" id="Initialize" placeholder="Initialize"> -->
-                  <br>
-                  <h1>Register</h1>
-                  <button type="button" id="userRegister" class="btn btn-primary">User</button>
-                  <button type="button" id="BizRegister" class="btn btn-primary">Business</button>
-              </div>
-          </div>
+      <!--Create Business Page-->
+
+    <section id="BusinessPageid">
+        <div class="container">
+            <h1>You are almost there!</h1>
+            <form>
+                <div class="form-group">
+                  <label for="NameOfB">Name of your Business</label>
+                  <input type="text" class="form-control" id="NameOfB" aria-describedby="emailHelp" placeholder="Example: Nike">
+                </div>
+                <div class="form-group">
+                  <label for="Service">Service that you provide</label>
+                  <input type="text" class="form-control" id="Service" placeholder="Example: Parking">
+                </div>
+                <div class="form-group">
+                    <label for="Price">Pricing (in dollars)</label>
+                    <input type="number" class="form-control" id="Price" placeholder="Example: 12">
+                </div>
+                <button id="BusinessCreated" type="submit" class="btn btn-primary">Submit</button>
+              </form>
         </div>
-      </div>
     </section>
 
 

@@ -1,45 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Register as a Business entity!</title>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-      <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css" rel="stylesheet"> -->
-      <link href="css/toastr.min.css" rel="stylesheet">
-  </head>  
-  <body>
+<%- include('partials/header'); -%>
       <!--Create Business Page-->
 
-    <section id="BusinessPageid">
-        <div class="container">
-            <h1>You are almost there!</h1>
-            <form>
-                <div class="form-group">
-                  <label for="NameOfB">Name of your Business</label>
-                  <input type="text" class="form-control" id="NameOfB" aria-describedby="emailHelp" placeholder="Example: Nike">
-                </div>
-                <div class="form-group">
-                  <label for="Service">Service that you provide</label>
-                  <input type="text" class="form-control" id="Service" placeholder="Example: Parking">
-                </div>
-                <div class="form-group">
-                    <label for="Price">Pricing (in dollars)</label>
-                    <input type="number" class="form-control" id="Price" placeholder="Example: 12">
-                </div>
-                <button id="BusinessCreated" type="submit" class="btn btn-primary">Submit</button>
-              </form>
-        </div>
-    </section>
+  <section id="BusinessPageid">
+      <div class="container formMiddle">
+          <h1>You are almost there!</h1>
+          <form action="/BusinessCreate" method="post">
+              <div class="form-group">
+                <label for="NameOfB">Name of your Business</label>
+                <input type="text" class="form-control" id="NameOfB" name="nameb" aria-describedby="emailHelp" placeholder="Example: Nike">
+              </div>
+              <div class="form-group">
+                <label for="Service">Service that you provide</label>
+                <input type="text" class="form-control" id="Service" name="service" placeholder="Example: Parking">
+              </div>
+              <div class="form-group">
+                  <label for="Price">Pricing (in dollars)</label>
+                  <input type="number" class="form-control" id="Price" name="price" placeholder="Example: 12">
+              </div>
+              <button id="BusinessCreated" type="submit" name="button" class="btn btn-dark">Submit</button>
+            </form>
+      </div>
+  </section>
 
-
-    </body>
-    <!-- <script  src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script> -->
-    <script  src="js/toastr.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-    <script src="js/app.js"></script>
-
-</html>
+<%- include('partials/footer'); -%>

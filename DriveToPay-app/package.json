@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/aryanshs/426Project#readme",
   "dependencies": {
+    "body-parser": "^1.20.1",
     "ejs": "^3.1.8",
     "express": "^4.18.2"
-  }
+  },
+  "type": "module"
 }

@@ -86,7 +86,9 @@ App = {
           toastr.success("You are now a User");
 
           //navigate to user page
-          window.location.href = "/UserPage";
+          setTimeout(() => {
+            window.location.href = "/UserPage";
+          }, 1500);
         }
       })
       .on("error", (err) => {
@@ -103,9 +105,10 @@ App = {
       .on("receipt", (receipt) => {
         if (receipt.status) {
           toastr.success("You are now a Business entity");
-          alert("wassup");
           //navigate to business page
-          window.location.href = "/BusinessCreate";
+          setTimeout(() => {
+            window.location.href = "/BusinessCreate";
+          }, 1500);
         }
       })
       .on("error", (err) => {
@@ -116,19 +119,19 @@ App = {
   //business provided the name, service, and price-
   handleBusinessCreated: function (NameOfB, NameOfservice, Price) {
     var option = { from: App.handler };
-    // alert(NameOfservice);
-    // alert(Price);
-    // alert(option);
     App.contracts.DriveToPayContract.methods
       .createBusiness(NameOfB, NameOfservice, Price)
       .send(option)
       .on("receipt", (receipt) => {
+        console.log(receipt);
         if (receipt.status) {
-          // toastr.success(
-          //   `Awesome! You are now a registered Business ${NameOfB}`
-          // );
-          alert(NameOfservice);
-          toastr.success("Awesome! You are now a registered Business");
+          toastr.success(
+            `Awesome! You are now a registered Business ${NameOfB}`
+          );
+
+          setTimeout(() => {
+            window.location.href = "/OnlyBusinessPage";
+          }, 1500);
         }
       })
       .on("error", (err) => {

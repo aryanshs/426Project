@@ -1,11 +1,11 @@
 //import Web3 as web3 from "./index.js";
 // const Web3 = require("web3");
 // const web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
-
+var BiztoAdd = {};
 App = {
   web3: null,
   contracts: {},
-  address: "0xDdCEa7F77da3B417294773cbc74a4345C0c54fEF",
+  address: "0x211611334419b972402a2Be081Ca55E54311bFE8",
   handler: null,
   network_id: 5777,
   url: "http://127.0.0.1:7545",
@@ -49,6 +49,7 @@ App = {
     //go to user page
     $(document).on("click", "#userRegister", function () {
       App.populateAddress().then((r) => (App.handler = r[0]));
+      //App.populateAddress().then((r) => console.log(r));
       App.handleUserRegister();
     });
 
@@ -67,6 +68,34 @@ App = {
         jQuery("#Price").val()
       );
     });
+
+    //when get button presses, get balance of the business
+    $(document).on("click", "#Balance", function () {
+      App.populateAddress().then((r) => (App.handler = r[0]));
+      App.handleGet();
+    });
+
+    //add a new service
+    $(document).on("click", "#serviceCreated", function () {
+      App.populateAddress().then((r) => (App.handler = r[0]));
+      App.handleserviceCreated(
+        jQuery("#NewService").val(),
+        jQuery("#NewPrice").val()
+      );
+    });
+
+    //withdraw button is pressed
+    $(document).on("click", "#withdraw", function () {
+      App.populateAddress().then((r) => (App.handler = r[0]));
+      App.handleWithdraw();
+    });
+
+    //USERS:
+    //when user submits their info
+    // $(document).on("click", "#userCreated", function () {
+    //   App.populateAddress().then((r) => (App.handler = r[0]));
+    //   App.handleuserCreated();
+    // });
   },
 
   populateAddress: async function () {
@@ -118,29 +147,60 @@ App = {
 
   //business provided the name, service, and price-
   handleBusinessCreated: function (NameOfB, NameOfservice, Price) {
+    BiztoAdd[NameOfB] = App.handler;
+    console.log(BiztoAdd);
     var option = { from: App.handler };
     App.contracts.DriveToPayContract.methods
       .createBusiness(NameOfB, NameOfservice, Price)
       .send(option)
       .on("receipt", (receipt) => {
-        console.log(receipt);
+        //console.log(receipt);
         if (receipt.status) {
           toastr.success(
             `Awesome! You are now a registered Business ${NameOfB}`
           );
-
           setTimeout(() => {
             window.location.href = "/OnlyBusinessPage";
           }, 1500);
         }
-      })
-      .on("error", (err) => {
-        alert(NameOfservice);
-        toastr.error(
-          "Sorry, you need to affirm that you are a business, please visit our home page"
-        );
       });
   },
+  handleGet: function () {
+    App.contracts.DriveToPayContract.methods
+      .getBalance()
+      .call()
+      .then((r) => {
+        // setTimeout(() => {
+        //   window.location.href = "/OnlyBusinessPage";
+        // }, 2000);
+        //console.log("this is it " + r);
+        document.getElementById("balance").innerHTML = ` : ${r}`;
+        // jQuery("#balance").text("hello");
+      });
+  },
+  handleserviceCreated: function (service, price) {
+    var option = { from: App.handler };
+    App.contracts.DriveToPayContract.methods
+      .AddService(service, price)
+      .send(option)
+      .on("receipt", (receipt) => {
+        //console.log(receipt);
+        if (receipt.status) {
+          toastr.success(`Great! You have added ${service} to your list`);
+
+          var serviceNode = document.createElement("li");
+          serviceNode.appendChild(document.createTextNode(`${service}`));
+
+          document.querySelector("ul").appendChild(serviceNode);
+          serviceNode.classList.add("list-group-item");
+        }
+      });
+  },
+  // handleuserCreated: function () {
+  //   console.log("here");
+  //   window.location.href = "/UserLandingPage";
+  //   // window.location.href = "/OnlyBusinessPage";
+  // },
   abi: [
     {
       inputs: [
@@ -239,6 +299,19 @@ App = {
       type: "function",
     },
     {
+      inputs: [],
+      name: "getBalance",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
       inputs: [
         {
           internalType: "address",
@@ -319,3 +392,7 @@ $(function () {
     };
   });
 });
+
+function userlandinPage() {
+  window.location.href = "/UserLandingPage";
+}

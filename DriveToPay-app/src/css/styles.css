@@ -21,3 +21,36 @@
   margin-top: 15%;
   margin-left: 25%;
 }
+
+.float-container {
+  padding: 20px;
+}
+
+.float-child {
+  width: 50%;
+  float: left;
+  padding: 20px;
+  border: 2px;
+}
+
+#nameofBusiness {
+  margin-left: 30%;
+  margin-top: 10%;
+}
+
+.servicesDiv {
+  margin-top: 5%;
+}
+
+.balance {
+  margin-top: 5%;
+  margin-left: 14%;
+}
+
+#withdraw {
+  margin-left: 1%;
+}
+.addserviceDiv {
+  margin-left: 52%;
+  margin-top: -3.3%;
+}

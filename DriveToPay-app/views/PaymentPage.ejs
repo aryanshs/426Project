@@ -1,0 +1,18 @@
+<%- include('partials/header'); -%>
+
+
+<div class="card text-white bg-dark mb-3 midCard" style="max-width: 18rem;">
+    <div class="card-header"><span id="nameofBi"><%=servicesList[0].name%></span> Payment</div>
+    <div class="card-body">
+      <h5 class="card-title" id="nameservicePrice"><%=servicesList[0].service%></h5>
+      <button type="button" id="findPrice" class="btn btn-info">Find Price <span id="priceofS"></span></button>
+      <p class="card-text">Send Secure transactions!</p>
+      <button type="button" id="sendButton" class="btn btn-light">Send</button>
+      <input type="number" class="form-control" id="amountPay" placeholder="Price">
+      <input type="text" class="form-control" id="carPlate" placeholder="Car num">
+    </div>
+  </div>
+   <!-- <h1>Hello</h1> -->
+
+
+<%- include('partials/footer'); -%>

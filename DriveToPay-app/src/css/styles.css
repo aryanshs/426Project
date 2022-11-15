@@ -54,3 +54,37 @@
   margin-left: 52%;
   margin-top: -3.3%;
 }
+
+.midCard {
+  margin-left: 40%;
+  margin-top: 15%;
+}
+
+#amountPay {
+  float: left;
+  width: 40%;
+}
+
+#sendButton {
+  margin-left: 20%;
+  margin-top: 10%;
+}
+
+#findPrice {
+  margin-bottom: 4%;
+}
+#carPlate {
+  float: left;
+  width: 40%;
+  margin-top: 5%;
+}
+
+.sent {
+  margin-left: 45%;
+  margin-top: 20%;
+}
+
+.moveMid {
+  margin-left: 80%;
+  margin-top: 25%;
+}

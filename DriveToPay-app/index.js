@@ -35,6 +35,14 @@ app.get("/UserLandingPage", function (req, res) {
   res.render("UserLandingPage", { servicesList: services });
 });
 
+//PaymentPage
+app.get("/PaymentPage", function (req, res) {
+  res.render("PaymentPage", { servicesList: services });
+});
+app.get("/sentconfirmation", function (req, res) {
+  res.render("sentconfirmation");
+});
+
 app.post("/BusinessCreate", function (req, res) {
   const service = req.body.service;
   const data = {
@@ -46,16 +54,16 @@ app.post("/BusinessCreate", function (req, res) {
   //res.redirect("OnlyBusinessPage");
 });
 
-app.post("/UserPage", function (req, res) {
-  const service = req.body.service;
-  const data = {
-    name: req.body.nameu,
-    car: req.body.Car,
-  };
-  users.push(data);
-  console.log(users);
-  res.redirect("UserLandingPage");
-});
+// app.post("/UserPage", function (req, res) {
+//   const service = req.body.service;
+//   const data = {
+//     name: req.body.nameu,
+//     car: req.body.Car,
+//   };
+//   users.push(data);
+//   console.log(users);
+//   res.redirect("UserLandingPage");
+// });
 
 // app.post("/OnlyBusinessPage", function (req, res) {
 //   const service = req.body.service;
@@ -71,6 +79,6 @@ app.post("/UserPage", function (req, res) {
 //   //res.redirect("OnlyBusinessPage");
 // });
 
-app.listen(3001, function () {
-  console.log("app listening on port 3001!");
+app.listen(3000, function () {
+  console.log("app listening on port 3000!");
 });

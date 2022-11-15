@@ -1,11 +1,11 @@
 //import Web3 as web3 from "./index.js";
 // const Web3 = require("web3");
 // const web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
-var BiztoAdd = {};
+//var BiztoAdd = {};
 App = {
   web3: null,
   contracts: {},
-  address: "0x211611334419b972402a2Be081Ca55E54311bFE8",
+  address: "0x485fce25a721cEE1477553b5d2B798AB62855A39",
   handler: null,
   network_id: 5777,
   url: "http://127.0.0.1:7545",
@@ -90,12 +90,30 @@ App = {
       App.handleWithdraw();
     });
 
-    //USERS:
-    //when user submits their info
-    // $(document).on("click", "#userCreated", function () {
-    //   App.populateAddress().then((r) => (App.handler = r[0]));
-    //   App.handleuserCreated();
-    // });
+    //usercreated store the car and address
+    $(document).on("click", "#userCreated", function () {
+      App.populateAddress().then((r) => (App.handler = r[0]));
+      App.handleuserCreated(jQuery("#car").val());
+    });
+
+    //find price of the service
+    $(document).on("click", "#findPrice", function () {
+      App.populateAddress().then((r) => (App.handler = r[0]));
+      App.handlefindPrice(
+        jQuery("#nameofBi").text(),
+        jQuery("#nameservicePrice").text()
+      );
+    });
+
+    //send the payment amount
+    $(document).on("click", "#sendButton", function () {
+      App.populateAddress().then((r) => (App.handler = r[0]));
+      App.handlesendButton(
+        jQuery("#nameofBi").text(),
+        jQuery("#nameservicePrice").text(),
+        jQuery("#amountPay").val()
+      );
+    });
   },
 
   populateAddress: async function () {
@@ -105,23 +123,18 @@ App = {
 
   //someone signed up as a user-
   handleUserRegister: function () {
+    console.log("here");
     var option = { from: App.handler };
     App.contracts.DriveToPayContract.methods
       .RegisterUser(false, true)
       .send(option)
       .on("receipt", (receipt) => {
         console.log(receipt);
-        if (receipt.status) {
-          toastr.success("You are now a User");
-
-          //navigate to user page
-          setTimeout(() => {
-            window.location.href = "/UserPage";
-          }, 1500);
-        }
-      })
-      .on("error", (err) => {
-        toastr.error("Please try that again");
+        toastr.success("You are now a user!");
+        //navigate to business page
+        setTimeout(() => {
+          window.location.href = "/UserPage";
+        }, 1500);
       });
   },
 
@@ -132,29 +145,23 @@ App = {
       .RegisterUser(true, false)
       .send(option)
       .on("receipt", (receipt) => {
-        if (receipt.status) {
-          toastr.success("You are now a Business entity");
-          //navigate to business page
-          setTimeout(() => {
-            window.location.href = "/BusinessCreate";
-          }, 1500);
-        }
-      })
-      .on("error", (err) => {
-        toastr.error("Please try that again");
+        console.log(receipt);
+        toastr.success("You are now a business entity!");
+        //navigate to business page
+        setTimeout(() => {
+          window.location.href = "/BusinessCreate";
+        }, 1500);
       });
   },
 
   //business provided the name, service, and price-
   handleBusinessCreated: function (NameOfB, NameOfservice, Price) {
-    BiztoAdd[NameOfB] = App.handler;
-    console.log(BiztoAdd);
     var option = { from: App.handler };
     App.contracts.DriveToPayContract.methods
       .createBusiness(NameOfB, NameOfservice, Price)
       .send(option)
       .on("receipt", (receipt) => {
-        //console.log(receipt);
+        console.log(receipt);
         if (receipt.status) {
           toastr.success(
             `Awesome! You are now a registered Business ${NameOfB}`
@@ -186,6 +193,7 @@ App = {
       .on("receipt", (receipt) => {
         //console.log(receipt);
         if (receipt.status) {
+          console.log(receipt);
           toastr.success(`Great! You have added ${service} to your list`);
 
           var serviceNode = document.createElement("li");
@@ -194,6 +202,55 @@ App = {
           document.querySelector("ul").appendChild(serviceNode);
           serviceNode.classList.add("list-group-item");
         }
+      });
+  },
+  handleuserCreated: function (car) {
+    var option = { from: App.handler };
+    App.contracts.DriveToPayContract.methods
+      .createuserandPlate(car)
+      .send(option)
+      .on("receipt", (receipt) => {
+        //console.log(receipt);
+        if (receipt.status) {
+          toastr.success(`Awesome! You are now a registered user!`);
+          setTimeout(() => {
+            window.location.href = "/UserLandingPage";
+          }, 1500);
+        }
+      });
+  },
+  handlefindPrice: function (name, service) {
+    var address;
+    App.contracts.DriveToPayContract.methods
+      .getAddress(name)
+      .call()
+      .then((r) => {
+        address = r;
+        App.contracts.DriveToPayContract.methods
+          .findPrice(r, service)
+          .call()
+          .then((r) => {
+            document.getElementById("priceofS").innerHTML = `: ${r}`;
+          });
+      });
+  },
+  handlesendButton: function (name, service, amount) {
+    console.log(amount);
+    var address;
+    App.contracts.DriveToPayContract.methods
+      .getAddress(name)
+      .call()
+      .then((r) => {
+        address = r;
+        var option = { from: App.handler };
+        App.contracts.DriveToPayContract.methods
+          .payment(r, service, amount)
+          .send(option)
+          .on("receipt", (receipt) => {
+            //console.log(receipt);
+            console.log("worked");
+            window.location.href = "/sentconfirmation";
+          });
       });
   },
   // handleuserCreated: function () {
@@ -218,6 +275,65 @@ App = {
       name: "AddService",
       outputs: [],
       stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "string",
+          name: "NameOfB",
+          type: "string",
+        },
+        {
+          internalType: "string",
+          name: "NameOFservice",
+          type: "string",
+        },
+        {
+          internalType: "uint256",
+          name: "price",
+          type: "uint256",
+        },
+      ],
+      name: "createBusiness",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "string",
+          name: "licensePlate",
+          type: "string",
+        },
+      ],
+      name: "createuserandPlate",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "BusinessAddress",
+          type: "address",
+        },
+        {
+          internalType: "string",
+          name: "NameOfService",
+          type: "string",
+        },
+        {
+          internalType: "uint256",
+          name: "amount",
+          type: "uint256",
+        },
+      ],
+      name: "payment",
+      outputs: [],
+      stateMutability: "payable",
       type: "function",
     },
     {
@@ -254,24 +370,14 @@ App = {
     {
       inputs: [
         {
-          internalType: "string",
-          name: "NameOfB",
-          type: "string",
-        },
-        {
-          internalType: "string",
-          name: "NameOFservice",
-          type: "string",
-        },
-        {
           internalType: "uint256",
-          name: "price",
+          name: "amountRequested",
           type: "uint256",
         },
       ],
-      name: "createBusiness",
+      name: "withdraw",
       outputs: [],
-      stateMutability: "nonpayable",
+      stateMutability: "payable",
       type: "function",
     },
     {
@@ -299,6 +405,25 @@ App = {
       type: "function",
     },
     {
+      inputs: [
+        {
+          internalType: "string",
+          name: "NameofB",
+          type: "string",
+        },
+      ],
+      name: "getAddress",
+      outputs: [
+        {
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
       inputs: [],
       name: "getBalance",
       outputs: [
@@ -315,18 +440,38 @@ App = {
       inputs: [
         {
           internalType: "address",
-          name: "BusinessAddress",
+          name: "user",
           type: "address",
         },
+      ],
+      name: "getifuserornot",
+      outputs: [
+        {
+          internalType: "bool",
+          name: "",
+          type: "bool",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
         {
           internalType: "string",
-          name: "NameOfService",
+          name: "licensePlate",
           type: "string",
         },
       ],
-      name: "payment",
-      outputs: [],
-      stateMutability: "payable",
+      name: "getuserAddress",
+      outputs: [
+        {
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
       type: "function",
     },
     {
@@ -351,19 +496,6 @@ App = {
         },
       ],
       stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "amountRequested",
-          type: "uint256",
-        },
-      ],
-      name: "withdraw",
-      outputs: [],
-      stateMutability: "payable",
       type: "function",
     },
   ],

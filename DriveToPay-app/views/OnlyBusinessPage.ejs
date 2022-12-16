@@ -1,0 +1,56 @@
+<%- include('partials/header'); -%>
+<section>
+    <!-- Name-->
+    <div class="float-container">
+        <div class="float-child">
+            <h1 id="nameofBusiness"><%=servicesList[0].name%></h1>
+        </div>
+
+        <!-- List of services-->
+        <div class="float-child servicesDiv">
+            <div class="list-group">
+                <ul>
+                    <li class="list-group-item list-group-item-dark">Services Offered</li>
+                
+                    <li class="list-group-item"><%=servicesList[0].service%></li>
+                </ul>
+              </div>
+        </div>
+
+        <!-- Balance-->
+        <div class="float-child balance">
+            <!-- <h4>Balance: <span id="balance"></span> </h4> -->
+            <button type="button" id="Balance" class="btn btn-dark">Balance <span id="balance"></span></button>
+            <button type="button" id="withdraw" class="btn btn-warning">Withdraw <span id="balance"></span></button>
+        </div>
+
+        <!-- Add service-->
+        <div class="float-child addserviceDiv">
+            <!-- <h4>Balance: <span id="balance"></span> </h4> -->
+            <div class="btn-group" role="group">
+                <button id="addService" type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Add Service
+                </button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <form>
+                        <div class="form-group dropdown-item">
+                          <label for="NewService">Service</label>
+                          <input type="text" class="form-control dropdown-item" id="NewService" name="service" placeholder="Ex: Parking">
+                        </div>
+                        <div class="form-group dropdown-item">
+                            <label for="NewPrice">Pricing (in dollars)</label>
+                            <input type="number" class="form-control dropdown-item" id="NewPrice" name="price" placeholder="Ex: 12">
+                        </div>
+                        <button id="serviceCreated" type="button" name="button" class="btn btn-dark">Submit</button>
+                      </form>
+                </div>
+                
+              </div>
+        </div>
+    </div>
+    
+
+
+
+</section>
+<%- include('partials/footer'); -%>

@@ -1,0 +1,24 @@
+<%- include('partials/header'); -%>
+
+<div class="float-child">
+    <div class="list-group moveMid">
+        <ul>
+            <h1>Businesses</h1>
+        
+              <div class="btn-group" role="group">
+                <div class="btn-group dropright">
+                    <button type="button" id="namefindPrice" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <%=servicesList[0].name%>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/PaymentPage"><%=servicesList[0].service%></a>
+                          
+                             
+                    </div>
+                  </div>
+              </div>
+        </ul>
+      </div>
+</div>
+
+<%- include('partials/footer'); -%>

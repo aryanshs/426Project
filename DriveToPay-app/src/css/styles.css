@@ -1,0 +1,90 @@
+/*Mine*/
+
+.middle {
+  margin-top: 30%;
+  margin-left: 25%;
+}
+
+#userRegister {
+  margin-top: 7%;
+  margin-right: 5%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+#BizRegister {
+  margin-top: 7%;
+  margin-left: 5%;
+}
+
+.formMiddle {
+  margin-top: 15%;
+  margin-left: 25%;
+}
+
+.float-container {
+  padding: 20px;
+}
+
+.float-child {
+  width: 50%;
+  float: left;
+  padding: 20px;
+  border: 2px;
+}
+
+#nameofBusiness {
+  margin-left: 30%;
+  margin-top: 10%;
+}
+
+.servicesDiv {
+  margin-top: 5%;
+}
+
+.balance {
+  margin-top: 5%;
+  margin-left: 14%;
+}
+
+#withdraw {
+  margin-left: 1%;
+}
+.addserviceDiv {
+  margin-left: 52%;
+  margin-top: -3.3%;
+}
+
+.midCard {
+  margin-left: 40%;
+  margin-top: 15%;
+}
+
+#amountPay {
+  float: left;
+  width: 40%;
+}
+
+#sendButton {
+  margin-left: 20%;
+  margin-top: 10%;
+}
+
+#findPrice {
+  margin-bottom: 4%;
+}
+#carPlate {
+  float: left;
+  width: 40%;
+  margin-top: 5%;
+}
+
+.sent {
+  margin-left: 45%;
+  margin-top: 20%;
+}
+
+.moveMid {
+  margin-left: 80%;
+  margin-top: 25%;
+}
